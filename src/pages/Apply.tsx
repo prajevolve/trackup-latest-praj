@@ -35,18 +35,17 @@ export const Apply: React.FC = () => {
       
       console.log('Payload:', payload);
 
-      const response = await fetch(
-        import.meta.env.VITE_WEBHOOK_URL,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: JSON.stringify(payload),
-          mode: 'cors'
-        }
-      );
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-proposal`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(payload),
+      });
       
       console.log('Response status:', response.status);
       console.log('Response headers:', response.headers);
